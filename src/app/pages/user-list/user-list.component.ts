@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { IUser } from '../../services/user/user.model';
 import { UserService } from '../../services/user/user.service';
@@ -13,6 +14,7 @@ import { UserService } from '../../services/user/user.service';
 })
 export class UserListPage implements OnInit {
   private userService = inject(UserService);
+  private router = inject(Router);
 
   users$!: Observable<IUser[]>;
 
@@ -22,5 +24,9 @@ export class UserListPage implements OnInit {
 
   getUsers() {
     return this.userService.getUsers();
+  }
+
+  openUserDetails(id: number) {
+    this.router.navigate(['users', id]);
   }
 }

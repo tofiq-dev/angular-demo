@@ -13,4 +13,8 @@ export class UserService {
   getUsers() {
     return this.http.get<IUser[]>(this.BASE_API_PATH + '/users');
   }
+
+  getUserDetails(id: number) {
+    return this.http.get<IUser>(this.BASE_API_PATH + `/users/${id}`);
+  }
 }
