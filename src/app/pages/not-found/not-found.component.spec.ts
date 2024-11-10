@@ -1,23 +1,44 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { NotFoundComponent } from './not-found.component';
+import { Location } from '@angular/common';
+import { Router } from '@angular/router';
+import { NotFoundPage } from './not-found.component';
 
-describe('NotFoundComponent', () => {
-  let component: NotFoundComponent;
-  let fixture: ComponentFixture<NotFoundComponent>;
+describe('Not found page', () => {
+  let component: NotFoundPage;
+  let fixture: ComponentFixture<NotFoundPage>;
+  let routerSpy: jasmine.SpyObj<Router>;
+  let location: Location;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [NotFoundComponent]
-    })
-    .compileComponents();
+    routerSpy = jasmine.createSpyObj('Router', ['navigate']);
 
-    fixture = TestBed.createComponent(NotFoundComponent);
+    await TestBed.configureTestingModule({
+      imports: [NotFoundPage],
+      providers: [{ provide: Router, useValue: routerSpy }, Location],
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(NotFoundPage);
     component = fixture.componentInstance;
+    location = TestBed.inject(Location);
+
     fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('should show not found message', () => {
+    const compiled = fixture.nativeElement as HTMLElement;
+    expect(compiled.querySelector('h1')?.textContent).toEqual('404');
+    expect(compiled.querySelector('p')?.textContent).toEqual('Page Not Found');
+  });
+
+  it('should navigate to dashboard when back button cliked', () => {
+    routerSpy.navigate.and.callFake(() => {
+      location.go('/users');
+      return Promise.resolve(true);
+    });
+
+    component.backToDashboard();
+    expect(routerSpy.navigate).toHaveBeenCalledWith(['users']);
+    expect(location.path()).toBe('/users');
   });
 });
