@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
 import { IUser } from '../../services/user/user.model';
 import { UserService } from '../../services/user/user.service';
 
@@ -16,14 +15,23 @@ export class UserListPage implements OnInit {
   private userService = inject(UserService);
   private router = inject(Router);
 
-  users$!: Observable<IUser[]>;
+  users: IUser[] = [];
+  status: 'LOADING' | 'COMPLETE' | 'ERROR' = 'LOADING';
 
   ngOnInit(): void {
-    this.users$ = this.getUsers();
+    this.getUsers();
   }
 
   getUsers() {
-    return this.userService.getUsers();
+    return this.userService.getUsers().subscribe({
+      next: (res) => {
+        this.users = res;
+        this.status = 'COMPLETE';
+      },
+      error: () => {
+        this.status = 'ERROR';
+      },
+    });
   }
 
   openUserDetails(id: number) {

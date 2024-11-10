@@ -1,21 +1,70 @@
-@let users = users$ | async;
+<div class="min-h-screen bg-slate-100 p-8">
+  <h1 class="text-2xl font-bold">User Dashboard</h1>
+  <p class="text-slate-500">See and manage your user here.</p>
 
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Email</th>
-      <th>Website</th>
+  <main class="mt-8 overflow-y-scroll rounded-lg bg-white p-4">
+    <table class="w-full text-left" style="border-spacing: 5rem">
+      <thead>
+        <tr class="bg-slate-200">
+          <th class="rounded-s-md">Name</th>
+          <th>Username</th>
+          <th>Email</th>
+          <th>Website</th>
+          <th class="rounded-e-md"></th>
+        </tr>
+      </thead>
+      <tbody>
+        @if (status === "COMPLETE" && users.length) {
+          <ng-template [ngTemplateOutlet]="complete" />
+        } @else if (status === "ERROR") {
+          <ng-template [ngTemplateOutlet]="error" />
+        } @else {
+          <ng-template [ngTemplateOutlet]="loading" />
+        }
+      </tbody>
+    </table>
+  </main>
+
+  <p class="mt-4 text-sm text-slate-500">Showing : {{ users.length }} contact(s)</p>
+</div>
+
+<ng-template #loading>
+  @for (skeleton of [1, 2, 3, 4]; track $index) {
+    <tr class="animate-pulse px-2">
+      <td><div class="h-6 w-full rounded-md bg-slate-200"></div></td>
+      <td><div class="h-6 w-full rounded-md bg-slate-200"></div></td>
+      <td><div class="h-6 w-full rounded-md bg-slate-200"></div></td>
+      <td><div class="h-6 w-full rounded-md bg-slate-200"></div></td>
     </tr>
-  </thead>
-  <tbody>
-    @for (user of users; track $index) {
-      <tr>
-        <td>{{ user.name }}</td>
-        <td>{{ user.email }}</td>
-        <td>{{ user.website }}</td>
-        <td><button (click)="openUserDetails(user.id)">details</button></td>
-      </tr>
-    }
-  </tbody>
-</table>
+  }
+</ng-template>
+
+<ng-template #complete>
+  @for (user of users; track $index) {
+    <tr class="whitespace-nowrap px-2 hover:bg-slate-100">
+      <td class="rounded-s-md">{{ user.name }}</td>
+      <td>{{ user.username }}</td>
+      <td>{{ user.email }}</td>
+      <td>{{ user.website }}</td>
+      <td class="flex justify-center rounded-e-md">
+        <button
+          class="ml-2 rounded-md p-2 text-slate-400 hover:bg-slate-300 hover:text-slate-600"
+          (click)="openUserDetails(user.id)"
+        >
+          Details
+        </button>
+      </td>
+    </tr>
+  }
+</ng-template>
+
+<ng-template #error>
+  <tr>
+    <td colspan="5">
+      <div class="relative flex h-44 items-center justify-center">
+        <div class="absolute h-40 w-40 rounded-full bg-slate-200"></div>
+        <p class="relative text-xl font-bold">No user found</p>
+      </div>
+    </td>
+  </tr>
+</ng-template>
