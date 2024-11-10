@@ -3,11 +3,12 @@ import { Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { IUser } from '../../services/user/user.model';
 import { UserService } from '../../services/user/user.service';
+import { UserIcon } from '../../shared/icons/user.component';
 
 @Component({
   selector: 'user-list',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, UserIcon],
   templateUrl: './user-list.component.html',
   styleUrl: './user-list.component.scss',
 })

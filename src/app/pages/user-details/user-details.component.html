@@ -1,29 +1,94 @@
-@let user = userDetails$ | async;
+@let user = userDetails;
 
-<div>{{ (user?.name)![0] }}</div>
+<div class="min-h-screen bg-slate-100 p-8">
+  <div class="m-auto max-w-screen-md">
+    <button
+      class="rounded-md px-4 py-2 text-slate-500 hover:bg-slate-300 hover:text-slate-600"
+      (click)="backToDashboard()"
+    >
+      ← Back
+    </button>
 
-<div>
-  <h2>Profile</h2>
+    @if (status === "LOADING") {
+      <ng-template [ngTemplateOutlet]="loading"></ng-template>
+    } @else {
+      <main>
+        <div class="flex flex-col items-center">
+          <div
+            class="h-16 w-16 rounded-full bg-blue-400 p-4 text-center text-3xl font-bold text-white"
+          >
+            {{ user.name![0] }}
+          </div>
+          <h1 class="mt-2 font-bold">{{ user.name }}</h1>
+          <p class="text-slate-500">&#64;{{ user.username }}</p>
+        </div>
 
-  <p>{{ user?.name }}</p>
-  <p>{{ user?.username }}</p>
-  <p>{{ user?.email }}</p>
-  <p>{{ user?.phone }}</p>
-  <p>{{ user?.website }}</p>
+        <span class="mt-8 grid grid-cols-1 gap-6 md:grid-cols-2">
+          <div class="rounded-lg bg-white p-4 drop-shadow-sm">
+            <h2 class="mb-2 font-bold text-slate-400">Contact</h2>
+
+            <div class="flex items-center gap-3">
+              <icon-mail size="18" class="text-slate-400" />
+              <p>{{ user.email }}</p>
+            </div>
+            <div class="mt-1 flex items-center gap-3">
+              <icon-phone size="20" class="text-slate-400" />
+              <p>{{ user.phone }}</p>
+            </div>
+            <div class="mt-1 flex items-center gap-3">
+              <icon-globe size="20" class="text-slate-400" />
+              <p>{{ user.website }}</p>
+            </div>
+          </div>
+
+          <div class="rounded-lg bg-white p-4 drop-shadow-sm">
+            <h2 class="mb-2 font-bold text-slate-400">Address</h2>
+
+            <div class="flex gap-3">
+              <icon-location size="20" class="mt-1 text-slate-400" />
+              <span>
+                <p>{{ user.address.street }},</p>
+                <p>{{ user.address.city }},</p>
+                <p>{{ user.address.zipcode }}</p>
+              </span>
+            </div>
+          </div>
+        </span>
+
+        <div
+          class="mt-6 rounded-lg bg-white bg-gradient-to-tr from-white to-blue-50 p-4 drop-shadow-sm"
+        >
+          <h2 class="mb-2 font-bold text-slate-400">Company</h2>
+
+          <div class="flex gap-3">
+            <icon-building size="20" class="mt-1 text-slate-400" />
+            <span>
+              <p>{{ user.company.name }}</p>
+              <p class="text-sm text-slate-500">{{ user.company.catchPhrase }}</p>
+              <p class="text-sm text-slate-500">{{ user.company.bs }}</p>
+            </span>
+          </div>
+        </div>
+      </main>
+    }
+  </div>
 </div>
 
-<div>
-  <h2>Address</h2>
+<ng-template #loading>
+  <span class="animate-pulse">
+    <div class="flex flex-col items-center">
+      <div class="h-16 w-16 rounded-full bg-blue-400"></div>
+      <span class="mt-2 h-6 w-40 bg-slate-300 font-bold"></span>
+      <span class="mt-1 h-6 w-32 bg-slate-200"></span>
+    </div>
 
-  <p>{{ user?.address?.street }}</p>
-  <p>{{ user?.address?.city }}</p>
-  <p>{{ user?.address?.zipcode }}</p>
-</div>
+    <span class="mt-8 grid grid-cols-1 gap-6 md:grid-cols-2">
+      <div class="h-36 rounded-lg bg-white drop-shadow-sm"></div>
+      <div class="h-36 rounded-lg bg-white drop-shadow-sm"></div>
+    </span>
 
-<div>
-  <h2>Company</h2>
-
-  <p>{{ user?.company?.name }}</p>
-  <p>{{ user?.company?.catchPhrase }}</p>
-  <p>{{ user?.company?.bs }}</p>
-</div>
+    <div
+      class="h-36 rounded-lg bg-white bg-gradient-to-tr from-white to-blue-50 drop-shadow-sm"
+    ></div>
+  </span>
+</ng-template>
