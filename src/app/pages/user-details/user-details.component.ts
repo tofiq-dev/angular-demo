@@ -36,6 +36,7 @@ export class UserDetailsPage implements OnInit {
         this.status = 'COMPLETE';
       },
       error: () => {
+        this.router.navigate(['not-found']);
         this.status = 'ERROR';
       },
     });
