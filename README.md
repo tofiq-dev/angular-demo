@@ -1,27 +1,42 @@
 # AngularDemo
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.10.
+This project is created to demonstrate angular basic features (Routing, Fetching API, Observables (rxjs), Control flow, Testing)
 
-## Development server
+## Preview
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+<div style="display: flex; gap: 0.5rem;">
+  <img src="./preview/lg-dashboard.png" height="300px">
+  <img src="./preview/sm-dashboard.png" height="300px">
+</div>
 
-## Code scaffolding
+## Setup project on local machine
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+This project is created with Angular v18 and `pnpm`, but if you're not using `pnpm`, `npm` should be sufficient.
 
-## Build
+### Run development server
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+```bash
+pnpm start
+or
+ng serve
+```
 
-## Running unit tests
+Then, open http://localhost:4200/ in your browser. The application will automatically reload if you change any of the source files.
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+### Run unit tests
 
-## Running end-to-end tests
+```bash
+pnpm test
+or
+ng test
+```
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+### Build
 
-## Further help
+```bash
+pnpm build
+or
+ng build
+```
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+The build artifacts will be stored in the `dist/` directory.
