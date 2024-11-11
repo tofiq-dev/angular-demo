@@ -5,7 +5,6 @@ import { Router } from '@angular/router';
 import { NotFoundPage } from './not-found.component';
 
 describe('Not found page', () => {
-  let component: NotFoundPage;
   let fixture: ComponentFixture<NotFoundPage>;
   let routerSpy: jasmine.SpyObj<Router>;
   let location: Location;
@@ -19,7 +18,6 @@ describe('Not found page', () => {
     }).compileComponents();
 
     fixture = TestBed.createComponent(NotFoundPage);
-    component = fixture.componentInstance;
     location = TestBed.inject(Location);
 
     fixture.detectChanges();
@@ -37,7 +35,9 @@ describe('Not found page', () => {
       return Promise.resolve(true);
     });
 
-    component.backToDashboard();
+    const compiled = fixture.nativeElement as HTMLElement;
+    compiled.querySelector('button')?.click();
+
     expect(routerSpy.navigate).toHaveBeenCalledWith(['users']);
     expect(location.path()).toBe('/users');
   });
