@@ -9,9 +9,7 @@
       ← Back
     </button>
 
-    @if (status === "LOADING") {
-      <ng-template [ngTemplateOutlet]="loading"></ng-template>
-    } @else {
+    @if (status === "COMPLETE") {
       <main>
         <div class="flex flex-col items-center">
           <div
@@ -70,6 +68,8 @@
           </div>
         </div>
       </main>
+    } @else {
+      <ng-template [ngTemplateOutlet]="loading"></ng-template>
     }
   </div>
 </div>
