@@ -6,7 +6,7 @@ import { MOCK_USERS } from '../../services/mock-data/user';
 import { UserService } from '../../services/user/user.service';
 import { UserDetailsPage } from './user-details.component';
 
-describe('UserDetailsPage', () => {
+describe('User details page', () => {
   let component: UserDetailsPage;
   let fixture: ComponentFixture<UserDetailsPage>;
   let userServiceSpy: jasmine.SpyObj<UserService>;

@@ -76,12 +76,10 @@ describe('User list page', () => {
     userServiceSpy.getUsers.and.returnValue(of(MOCK_USERS));
     fixture.detectChanges();
 
-    const compiled = fixture.nativeElement as HTMLElement;
-    const detailsButton = compiled.querySelector('button');
-
     spyOn(component, 'openUserDetails').and.callThrough();
 
-    detailsButton?.click();
+    const compiled = fixture.nativeElement as HTMLElement;
+    compiled.querySelector('button')?.click();
 
     expect(component.openUserDetails).toHaveBeenCalledWith(MOCK_USERS[0].id);
     expect(routerSpy.navigate).toHaveBeenCalledWith(['users', MOCK_USERS[0].id]);

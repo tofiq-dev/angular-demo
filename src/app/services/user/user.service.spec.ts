@@ -18,7 +18,7 @@ describe('User service', () => {
     service = TestBed.inject(UserService);
   });
 
-  it('getUsers should return user list ', (done: DoneFn) => {
+  it('should return user list when getUsers called', (done: DoneFn) => {
     httpClientSpy.get.and.returnValue(of(MOCK_USERS));
 
     service.getUsers().subscribe({
@@ -32,7 +32,7 @@ describe('User service', () => {
     });
   });
 
-  it('getUserDetails should return user details ', (done: DoneFn) => {
+  it('should return user details when getUserDetails called', (done: DoneFn) => {
     httpClientSpy.get.and.returnValue(of(MOCK_USERS[0]));
 
     service.getUserDetails(1).subscribe({
