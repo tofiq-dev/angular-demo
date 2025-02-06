@@ -1,24 +1,40 @@
 trigger:
-- main
+  branches:
+    include:
+      - main  # Trigger pipeline on 'main' branch (change as needed)
 
 pool:
-  vmImage: ubuntu-latest
+  vmImage: 'ubuntu-latest'
 
-steps:
-- task: NodeTool@0
-  inputs:
-    versionSpec: '20.x'
-  displayName: 'Install Node.js'
+variables:
+  azureWebAppName: 'angular-demo-app'  # Your Azure Web App name
+  azureResourceGroup: 'angular'  # Your Azure Resource Group name
 
-- script: |
-    npm install -g @angular/cli
-    npm install
-    ng build --configuration production
-  displayName: 'Install and Build Angular App'
+stages:
+  - stage: Build
+    displayName: 'Build Angular Application'
+    jobs:
+      - job: BuildJob
+        displayName: 'Build Job'
+        steps:
+          - task: NodeTool@0
+            inputs:
+              versionSpec: '18.x'  # Specify Node.js version
+            displayName: 'Install Node.js'
 
-- task: PublishBuildArtifacts@1
-  inputs:
-    PathtoPublish: '$(System.DefaultWorkingDirectory)/dist/angular-demo'
-    ArtifactName: 'drop'
-    publishLocation: 'Container'
-  displayName: 'Publish Build Artifacts'
+          - script: |
+              npm install -g pnpm
+              pnpm install
+            displayName: 'Install dependencies'
+
+          - script: |
+              pnpm run build --configuration production
+            displayName: 'Build Angular Application'
+
+          # Publish the build output as an artifact
+          - task: PublishBuildArtifacts@1
+            inputs:
+              PathtoPublish: '$(System.DefaultWorkingDirectory)/dist/angular-demo'  # Path to the build output folder
+              ArtifactName: 'angular-artifact'  # The name of the artifact
+              publishLocation: 'Container'
+            displayName: 'Publish Artifact'
