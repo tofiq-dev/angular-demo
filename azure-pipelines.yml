@@ -5,23 +5,20 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
-# Install Node.js
 - task: NodeTool@0
   inputs:
     versionSpec: '20.x'
   displayName: 'Install Node.js'
 
-# Install dependencies and build
 - script: |
     npm install -g @angular/cli
     npm install
-    ng build --prod --output-path=dist/angular-demo
+    ng build --configuration production
   displayName: 'Install and Build Angular App'
 
-# Publish artifacts
 - task: PublishBuildArtifacts@1
   inputs:
-    pathToPublish: '$(System.DefaultWorkingDirectory)/dist/angular-demo'
-    artifactName: 'drop'
+    PathtoPublish: '$(System.DefaultWorkingDirectory)/dist/angular-demo'
+    ArtifactName: 'drop'
     publishLocation: 'Container'
   displayName: 'Publish Build Artifacts'
